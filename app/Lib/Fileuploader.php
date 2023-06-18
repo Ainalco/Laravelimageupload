@@ -25,7 +25,7 @@ public $key='Test Key';
       //filename to store
       $picturename = $filename.'_'.uniqid().'.'.$extension;
 
-      // $picturename = $prefix_name. $image->getClientOriginalName().'.'.$image->extension();
+ 
 
     //   $filePath = public_path('/uploads/newsevents/');
       $filePath = public_path($upload_path);
