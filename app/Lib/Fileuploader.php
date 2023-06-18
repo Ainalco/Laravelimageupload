@@ -33,7 +33,7 @@ public $key='Test Key';
       //$filePath =$upload_path;
       //$image_path = $request->file('image')->store('image', 'public');
       $img = Image::make($image->path());
-      // dd($image->path());
+      
       $img->resize($widthsize,$heightsize, function ($const) {
           // $const->aspectRatio();
       })->save($filePath.'/'.$picturename);
