@@ -6,6 +6,74 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+## Laraval Image Upload Using Custome Library  
+### File upload Step
+- Add Intervention Image Package with below command
+composer require intervention/image
+-then create Lib Directory under App directory
+app/Lib then create Fileuploader.php with this content
+<?php
+namespace App\Lib;
+use Illuminate\Http\Request;
+use Image;
+
+class Fileuploader{
+
+public $key='Test Key';
+
+  function test(){
+    return $this->key;
+  }
+
+  // ============== its for for single file upload with resize ===========
+  function fileupload($request, $prefix_name, $upload_path, $heightsize, $widthsize){
+    //dd($request);
+    if ($request->file('profileimg')) {
+     $image = $request->file('profileimg');
+
+      $filenamewithextension = $image->getClientOriginalName();
+      //get filename without extension
+      $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+      //get file extension
+      $extension = $image->getClientOriginalExtension();
+      //filename to store
+      $picturename = $filename.'_'.uniqid().'.'.$extension;
+
+ 
+
+   
+      $filePath = public_path($upload_path);
+
+     
+      $img = Image::make($image->path());
+      
+      $img->resize($widthsize,$heightsize, function ($const) {
+       
+      })->save($filePath.'/'.$picturename);
+      $picture = $upload_path.$picturename;
+  } else {
+      $picture = '';
+  }
+    return $picture;
+  }
+  }
+  -Then Add it to your controller
+  First Load Library
+  use App\Lib\Fileuploader;
+   then put below code in your method
+   
+           $fileuploader_lib = new Fileuploader();
+
+           $prefix_name = time().'-PIC-';
+           $upload_path = 'uploads/';
+           $heightsize = 200;
+           $widthsize = 200;
+           $picture = $fileuploader_lib->fileupload($request, $prefix_name, $upload_path, $heightsize, $widthsize);
+    -finally store it to your table
+    $data['PprofileImage']=$picture;
+     $newpost=Post::create($data);
+
+     ### That's It
 
 ## About Laravel
 
