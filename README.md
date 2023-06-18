@@ -12,7 +12,6 @@
 composer require intervention/image
 -then create Lib Directory under App directory
 app/Lib then create Fileuploader.php with this content
-<?php
 namespace App\Lib;
 use Illuminate\Http\Request;
 use Image;
@@ -25,9 +24,9 @@ public $key='Test Key';
     return $this->key;
   }
 
-  // ============== its for for single file upload with resize ===========
+  
   function fileupload($request, $prefix_name, $upload_path, $heightsize, $widthsize){
-    //dd($request);
+   
     if ($request->file('profileimg')) {
      $image = $request->file('profileimg');
 
